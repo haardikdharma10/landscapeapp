@@ -47,6 +47,9 @@ export default {
       'favicon.png': path.resolve(projectPath, 'images/favicon.png'),
     }
   },
+  externals: {
+    moment: 'moment'
+  },
   devtool: 'source-map', // more info:https://webpack.js.org/guides/production/#source-mapping and https://webpack.js.org/configuration/devtool/
   entry: path.resolve(__dirname, 'src/index.js'),
   target: 'web',
@@ -78,6 +81,7 @@ export default {
       inject: true,
       // custom properties
       GA :require('process').env['GA'],
+      prefix: process.env.PROJECT_NAME || '',
       lastUpdated: new Date().toISOString().substring(0, 19).replace('T', ' ') + 'Z',
       settings: settings
     }),
