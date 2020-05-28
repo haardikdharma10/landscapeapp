@@ -386,7 +386,7 @@ const ItemDialogContent = ({itemInfo, isLandscape, setIsLandscape}) => {
       <div className="product-property-value tight-col col-60"><InternalLink to={filtersToUrl({grouping: 'headquarters', filters:{headquarters:itemInfo.headquarters}})}>{itemInfo.headquarters}</InternalLink></div>
     </div>
   );
-  const amountElement = Number.isInteger(itemInfo.amount) && (
+  const amountElement = !settings.global.hide_funding_and_market_cap && Number.isInteger(itemInfo.amount) && (
     <div className="product-property row">
       <div className="product-property-name col col-40">{itemInfo.amountKind === 'funding' ? 'Funding' : 'Market Cap'}</div>
       {  itemInfo.amountKind === 'funding' &&
@@ -515,12 +515,20 @@ const ItemDialogContent = ({itemInfo, isLandscape, setIsLandscape}) => {
                 </div>
                 {itemInfo.repo_url &&
                 <div className="product-property row">
-                  <div className="product-property-name col col-20">Repository</div>
+                  <div className="product-property-name col col-20">{ itemInfo.additional_repos ? 'Repositories' : 'Repository' }</div>
                   <div className="product-property-value product-repo col col-80">
                     <OutboundLink to={itemInfo.repo_url}>{shortenUrl(itemInfo.repo_url)}</OutboundLink>
                   </div>
                 </div>
                 }
+                { itemInfo.additional_repos && itemInfo.additional_repos.map(({ repo_url }) => {
+                  return <div className="product-property row">
+                    <div className="product-property-name col col-20"></div>
+                    <div className="product-property-value product-repo col col-80">
+                      <OutboundLink to={repo_url}>{shortenUrl(repo_url)}</OutboundLink>
+                    </div>
+                  </div>
+                })}
                 {itemInfo.starsAsText &&
                 <div className="product-property row">
                   <div className="product-property-name col col-20"></div>
